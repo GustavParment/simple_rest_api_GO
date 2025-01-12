@@ -12,3 +12,8 @@ type RegisterUserRequest struct {
 	Password string `json:"password" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
 }
+
+type RegisterUserResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}

@@ -38,4 +38,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Message: "Login successful",
 		Token:   token,
 	})
+
 }

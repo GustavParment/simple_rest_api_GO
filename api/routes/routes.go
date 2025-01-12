@@ -3,14 +3,17 @@ package routes
 import (
 	"github.com/gorilla/mux"
 	_ "net/http"
+	"simplerestapi/api/routes/auth"
+	"simplerestapi/api/routes/user"
 )
 
 func InitRoutes() *mux.Router {
 	router := mux.NewRouter()
 
-	InitHelloRoutes(router)
-	InitGoodbyeRoutes(router)
-	InitAuthRoutes(router)
+	user.InitHelloRoutes(router)
+	user.InitGoodbyeRoutes(router)
+	user.InitRegisterRoutes(router)
+	auth.InitAuthRoutes(router)
 
 	return router
 }
