@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"simplerestapi/api/models"
+	"simplerestapi/api/services"
 )
+
+var authService = services.NewAuthService()
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -20,20 +23,19 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if loginRequest.Username == "admin" && loginRequest.Password == "123" {
-		token := "fake-jwt-token-123456"
-
+	token, err := authService.Login(loginRequest.Username, loginRequest.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(models.LoginResponse{
-			Status:  "success",
-			Message: "Login successful",
-			Token:   token,
+			Status:  "error",
+			Message: err.Error(),
 		})
 		return
 	}
 
-	w.WriteHeader(http.StatusUnauthorized)
 	json.NewEncoder(w).Encode(models.LoginResponse{
-		Status:  "error",
-		Message: "Invalid username or password",
+		Status:  "success",
+		Message: "Login successful",
+		Token:   token,
 	})
 }
